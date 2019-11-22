@@ -8,6 +8,7 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
 **/
 
 #include "InternalBm.h"
+#include <Library/TimerLib.h>
 
 EFI_RAM_DISK_PROTOCOL                        *mRamDisk                  = NULL;
 
@@ -1844,6 +1845,10 @@ EfiBootManagerBoot (
       RamDiskDevicePath = BmGetRamDiskDevicePath (FilePath);
 
       REPORT_STATUS_CODE (EFI_PROGRESS_CODE, PcdGet32 (PcdProgressCodeOsLoaderLoad));
+      DEBUG ((DEBUG_INFO | DEBUG_LOAD, "[Bds]loading bootarm.efi image \n"));
+      UINT64 Ticker    = GetPerformanceCounter ();
+      UINT64 TimeStamp = GetTimeInNanoSecond (Ticker);
+      DEBUG ((DEBUG_INFO | DEBUG_LOAD, "[Bds]loading bootarm.efi image start timestamp(ns)=%lu\n ", TimeStamp));
       Status = gBS->LoadImage (
                       TRUE,
                       gImageHandle,
@@ -1852,6 +1857,9 @@ EfiBootManagerBoot (
                       FileSize,
                       &ImageHandle
                       );
+      Ticker    = GetPerformanceCounter ();
+      TimeStamp = GetTimeInNanoSecond (Ticker);
+      DEBUG ((DEBUG_INFO | DEBUG_LOAD, "[Bds]loading bootarm.efi image end timestamp(ns)=%lu\n ", TimeStamp));
     }
     if (FileBuffer != NULL) {
       FreePool (FileBuffer);

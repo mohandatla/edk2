@@ -591,6 +591,10 @@ FirmwarePerformanceDxeEntryPoint (
   IN EFI_SYSTEM_TABLE    *SystemTable
   )
 {
+
+  // to check firmware performance driver is initialized.
+  // DEBUG ((DEBUG_INFO, "FirmwarePerformance: FirmwarePerformanceDxeEntryPoint called.\n"));
+
   EFI_STATUS               Status;
   EFI_HOB_GUID_TYPE        *GuidHob;
   FIRMWARE_SEC_PERFORMANCE *Performance;
@@ -647,7 +651,7 @@ FirmwarePerformanceDxeEntryPoint (
     DEBUG ((DEBUG_WARN, "FPDT: WARNING: SEC Performance Data Hob not found, ResetEnd will be set to 0!\n"));
   }
 
-  if (FeaturePcdGet (PcdFirmwarePerformanceDataTableS3Support)) {
+    if (FeaturePcdGet (PcdFirmwarePerformanceDataTableS3Support)) {
     //
     // Register callback function upon VariableArchProtocol and LockBoxProtocol
     // to allocate S3 performance table memory and save the pointer to LockBox.
@@ -673,5 +677,5 @@ FirmwarePerformanceDxeEntryPoint (
     mFirmwarePerformanceTableTemplate.Header.Length -= sizeof (EFI_ACPI_5_0_FPDT_S3_PERFORMANCE_TABLE_POINTER_RECORD);
   }
 
-  return EFI_SUCCESS;
+    return EFI_SUCCESS;
 }

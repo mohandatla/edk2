@@ -1241,6 +1241,8 @@ InsertFpdtRecord (
   } else {
     mPerformanceLength += FpdtRecordPtr.RecordHeader->Length;
   }
+
+  // DEBUG ((DEBUG_INFO, "debugging purpose InsertFpdtRecord: module name =%s timestamp=%lu.\n", StringPtr, TimeStamp));
   return EFI_SUCCESS;
 }
 
@@ -1362,6 +1364,8 @@ DxeCorePerformanceLibConstructor (
   PERFORMANCE_PROPERTY      *PerformanceProperty;
 
   if (!PerformanceMeasurementEnabled ()) {
+    // to check firmware performance driver is initialized.
+    // DEBUG ((DEBUG_INFO, "Mohan DxeCorePerformanceLib: PerformanceMeasurementEnabled not enabled.\n"));
     //
     // Do not initialize performance infrastructure if not required.
     //
